@@ -3,14 +3,13 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-RUN npm run build \
-    && rf -rf ./src \
-    && rm -rf node ./node_modules
+RUN npm run build
 
 FROM node:16-alpine AS backend
 WORKDIR /app
 COPY --from=builder /app/package*.json ./
-RUN npm ci ---omit=dev --no-audit --no-fund && npm i -g pm2 \
+RUN npm i pm2 -g \
+&& npm i ---omit=dev \
 && npm i @nestjs/config
 COPY --from=builder /app/dist ./dist/
 COPY --from=builder /app/ecosystem.config.js ./ecosystem.config.js
