@@ -2,7 +2,6 @@ version: "3.3"
 services:
   frontend:
     container_name: frontend
-    platform: linux/arm64/v8
     image: kirillkamratov/frontend-release:1.0.0
     restart:
       unless-stopped
@@ -10,7 +9,6 @@ services:
       - "8081:80"
   backend:
     container_name: backend
-    platform: linux/arm64/v8
     image: kirillkamratov/backend-release:1.0.0
     networks:
       - backend-database
