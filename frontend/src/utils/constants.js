@@ -1,4 +1,4 @@
-export const URL = 'api.kamratov.students.nomoreparties.sbs';
+export const URL = 'https://api.kamratov.students.nomoreparties.sbs';
 
 export const MINIMUM_PASSWORD_LENGTH = 3;
 export const MINIMUM_USERNAME_LENGTH = 3;

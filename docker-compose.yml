@@ -2,14 +2,14 @@ version: "3.3"
 services:
   frontend:
     container_name: frontend
-    build: ./frontend
+    image: kirillkamratov/frontend-release:1.0.0
     restart:
       unless-stopped
     ports:
       - "8081:80"
   backend:
     container_name: backend
-    build: ./backend
+    image: kirillkamratov/backend-release:1.0.0
     networks:
       - backend-database
     restart: "unless-stopped"
