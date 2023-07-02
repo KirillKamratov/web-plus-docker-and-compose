@@ -1,10 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { UsersService } from 'src/users/users.service';
-import { User } from '../users/entities/user.entity';
+import {Injectable, UnauthorizedException} from '@nestjs/common';
+import {JwtService} from '@nestjs/jwt';
+import {UsersService} from 'src/users/users.service';
+import {User} from '../users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+import {CreateUserDto} from 'src/users/dto/create-user.dto';
+
 require('dotenv').config();
 @Injectable()
 export class AuthService {
@@ -41,7 +41,6 @@ export class AuthService {
   }
 
   async signup(createUserDto: CreateUserDto) {
-    const user = await this.userService.create(createUserDto);
-    return user;
+    return await this.userService.create(createUserDto);
   }
 }
