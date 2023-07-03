@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
-import { JwtStrategy } from '../utils/jwt/jwt.strategy';
+import {JwtStrategy} from "../utils/jwt/jwt.strategy";
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from '../utils/local/local.strategy';
+import {LocalStrategy} from "../utils/local/local.strategy";
 import { AuthController } from './auth.controller';
 import { UsersService } from 'src/users/users.service';
 import { User } from 'src/users/entities/user.entity';
@@ -21,7 +21,7 @@ import { Wish } from 'src/wishes/entities/wish.entity';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('jwt_secret'),
+        secret: configService.get<string>('JWT_SECRET'),
       }),
       inject: [ConfigService],
     }),

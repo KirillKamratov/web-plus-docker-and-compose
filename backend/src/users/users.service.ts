@@ -27,7 +27,6 @@ export class UsersService {
     });
   }
 
-  /* Создаём пользователя */
   async create(payload: CreateUserDto): Promise<User> {
     const { username, email } = payload;
 
@@ -44,7 +43,6 @@ export class UsersService {
     return user;
   }
 
-  /* Обновляем информацию о пользователе */
   async update(id: number, payload: UpdateUserDto): Promise<User> {
     const { username, email } = payload;
     if (username || email) {

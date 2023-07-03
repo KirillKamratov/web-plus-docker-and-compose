@@ -6,18 +6,18 @@ import {
   Patch,
   Param,
   Req,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { CustomRequest } from '../utils/utils';
+import {CustomRequest} from "../utils/utils";
 import { FindUserDto } from './dto/find-user.dto';
-import { JwtGuard } from '../utils/jwt/jwt.guard';
+import {JwtGuard} from "../utils/jwt/jwt.guard";
 
 @UseGuards(JwtGuard)
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Get(':me')
   findMe(@Req() req: CustomRequest) {

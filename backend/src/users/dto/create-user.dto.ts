@@ -1,38 +1,30 @@
 import {
-  IsString,
-  MaxLength,
-  MinLength,
-  IsUrl,
-  IsNotEmpty,
   IsEmail,
+  IsOptional,
+  IsString,
+  IsUrl,
+  Length,
+  IsNotEmpty,
 } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
-  @MinLength(2, {
-    message: 'Минимальная длина поля - 2 символа',
-  })
-  @MaxLength(30, {
-    message: 'Максимальная длинна поля - 30 символов',
-  })
+  @IsNotEmpty()
+  @Length(2, 30)
   username: string;
 
+  @IsOptional()
   @IsString()
-  @MinLength(2, {
-    message: 'Минимальная длина поля - 2 символа',
-  })
-  @MaxLength(200, {
-    message: 'Максимальная длинна поля - 200 символов',
-  })
-  about?: string;
+  @Length(2, 200)
+  about: string;
+
+  @IsOptional()
+  @IsUrl()
+  avatar: string;
 
   @IsEmail()
   @IsNotEmpty()
   email: string;
-
-  @IsString()
-  @IsUrl()
-  avatar?: string;
 
   @IsString()
   @IsNotEmpty()

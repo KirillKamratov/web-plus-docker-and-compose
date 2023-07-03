@@ -1,17 +1,16 @@
-import {Injectable, UnauthorizedException} from '@nestjs/common';
-import {JwtService} from '@nestjs/jwt';
-import {UsersService} from 'src/users/users.service';
-import {User} from '../users/entities/user.entity';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { UsersService } from 'src/users/users.service';
+import { User } from '../users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import {CreateUserDto} from 'src/users/dto/create-user.dto';
-
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 require('dotenv').config();
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private userService: UsersService,
-  ) {}
+  ) { }
 
   auth(user: User) {
     const payload = { sub: user.id };
@@ -27,13 +26,12 @@ export class AuthService {
     if (!checkedUser) {
       throw new UnauthorizedException('Неверный логин');
     }
-    const checkPassword = await bcrypt
-      .compare(password, checkedUser.password)
-      .then((matched) => {
-        if (!matched) {
-          return null;
-        } else return true;
-      });
+    const checkPassword = await bcrypt.compare(password, checkedUser.password).then((matched) => {
+      if (!matched) {
+        return null
+      } else
+        return true
+    });
     if (!checkPassword) {
       throw new UnauthorizedException('Неправильный пароль');
     }
@@ -41,6 +39,7 @@ export class AuthService {
   }
 
   async signup(createUserDto: CreateUserDto) {
-    return await this.userService.create(createUserDto);
+    const user = await this.userService.create(createUserDto);
+    return user;
   }
 }
