@@ -1,10 +1,6 @@
-import {
-  Injectable,
-  NotFoundException,
-  ForbiddenException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { CreateOfferDto } from './dto/create-offer.dto';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository, } from '@nestjs/typeorm';
 import { WishesService } from '../wishes/wishes.service';
 import { Offer } from './entities/offer.entity';
 import {
@@ -22,7 +18,7 @@ export class OffersService {
     @InjectRepository(Offer)
     private offerRepository: Repository<Offer>,
     private wishesService: WishesService,
-  ) {}
+  ) { }
 
   async create(createOfferDto: CreateOfferDto, userId: number) {
     const { amount, itemId } = createOfferDto;
@@ -33,11 +29,14 @@ export class OffersService {
     const { price, raised, owner } = wish;
 
     if (owner.id === userId) {
-      throw new ForbiddenException('Нельзя скидываться на свои подарки');
+      throw new ForbiddenException(
+        'Нельзя скидываться на свои подарки',
+      );
     }
 
     if (amount + raised > price) {
-      throw new ForbiddenException('Сумма превышает остаток');
+      throw new ForbiddenException('Сумма превышает остаток'
+      );
     }
 
     const offer = this.offerRepository.create({

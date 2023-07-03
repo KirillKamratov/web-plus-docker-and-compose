@@ -1,16 +1,18 @@
-import { Injectable, ForbiddenException } from '@nestjs/common';
+import { Injectable, ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 import { Wishlist } from './entities/wishlist.entity';
 import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
+import { User } from '../users/entities/user.entity';
+
 
 @Injectable()
 export class WishlistsService {
   constructor(
     @InjectRepository(Wishlist)
     private wishlistsRepository: Repository<Wishlist>,
-  ) {}
+  ) { }
 
   findMany(query: FindManyOptions<Wishlist>) {
     return this.wishlistsRepository.find(query);

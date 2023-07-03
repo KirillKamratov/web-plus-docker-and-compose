@@ -1,35 +1,45 @@
-import { PrimaryEntity } from '../../utils/primary.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { IsString, MaxLength, MinLength, IsUrl } from 'class-validator';
-import { Wish } from '../../wishes/entities/wish.entity';
-import { User } from '../../users/entities/user.entity';
+import { IsString, Length, IsNotEmpty, IsUrl } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
+import { Wish } from 'src/wishes/entities/wish.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Column,
+  ManyToMany,
+  JoinTable,
+  ManyToOne,
+} from 'typeorm';
 
 @Entity()
-export class Wishlist extends PrimaryEntity {
-  @Column()
-  @IsString()
-  @MinLength(1, {
-    message: 'Минимальная длина поля - 1 символ',
-  })
-  @MaxLength(250, {
-    message: 'Максимальная длина поля - 250 символов',
-  })
-  name: string;
+export class Wishlist {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @Column()
+  @Length(1, 250)
   @IsString()
-  @MaxLength(1500, {
-    message: 'Максимальная длина поля - 1500 символов',
-  })
+  name: string;
+
+  @Column({default: 'Тут должно быть описание'})
+  @Length(1, 1500)
   description: string;
 
   @Column()
   @IsUrl()
   image: string;
 
-  @OneToMany(() => Wish, (wish) => wish.wishlist)
-  items: Wish[];
+  @ManyToMany(() => Wish)
+  @JoinTable()
+  public items: Array<Wish>;
 
-  @ManyToOne(() => User, (owner) => owner.wishlists)
+  @ManyToOne(() => User, (user) => user.wishlists)
   owner: User;
 }

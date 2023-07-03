@@ -1,24 +1,43 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
-import { PrimaryEntity } from '../../utils/primary.entity';
-import { User } from '../../users/entities/user.entity';
-import { Wish } from '../../wishes/entities/wish.entity';
-import { IsBoolean, IsNumber } from 'class-validator';
+import {
+  Entity,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  Column,
+} from 'typeorm';
+import { IsInt } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
+import { Wish } from 'src/wishes/entities/wish.entity';
+
 
 @Entity()
-export class Offer extends PrimaryEntity {
+export class Offer {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
   @ManyToOne(() => User, (user) => user.offers)
   user: User;
 
-  @ManyToOne(() => Wish, (wish) => wish.offers)
+  @ManyToOne(() => Wish, (wish) => wish.link)
   item: Wish;
 
-  @Column()
-  @IsNumber({ maxDecimalPlaces: 2 })
+  @Column({
+    type: 'numeric',
+    precision: 10,
+    scale: 2,
+    default: 0,
+  })
+  @IsInt()
   amount: number;
 
-  @Column({
-    default: false,
-  })
-  @IsBoolean()
+  @Column({ default: false })
   hidden: boolean;
+
 }

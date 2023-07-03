@@ -15,9 +15,10 @@ import { UpdateWishDto } from './dto/update-wish.dto';
 import { CustomRequest } from '../utils/utils';
 import { JwtGuard } from '../utils/jwt/jwt.guard';
 
+
 @Controller('wishes')
 export class WishesController {
-  constructor(private readonly wishesService: WishesService) {}
+  constructor(private readonly wishesService: WishesService) { }
 
   @UseGuards(JwtGuard)
   @Post()

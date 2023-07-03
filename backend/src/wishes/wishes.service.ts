@@ -22,7 +22,7 @@ export class WishesService {
     private dataSource: DataSource,
     @InjectRepository(Wish)
     private wishesRepository: Repository<Wish>,
-  ) {}
+  ) { }
 
   create(createWishDto: CreateWishDto, ownerId: number) {
     const wish = this.wishesRepository.create({

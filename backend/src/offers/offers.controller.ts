@@ -5,17 +5,17 @@ import {
   Body,
   Param,
   UseGuards,
-  Req,
+  Req
 } from '@nestjs/common';
 import { OffersService } from './offers.service';
 import { CreateOfferDto } from './dto/create-offer.dto';
-import { CustomRequest } from '../utils/utils';
+import {CustomRequest} from '../utils/utils';
 import { JwtGuard } from '../utils/jwt/jwt.guard';
 
 @UseGuards(JwtGuard)
 @Controller('offers')
 export class OffersController {
-  constructor(private readonly offersService: OffersService) {}
+  constructor(private readonly offersService: OffersService) { }
 
   @Post()
   create(@Body() createOfferDto: CreateOfferDto, @Req() req: CustomRequest) {

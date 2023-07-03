@@ -1,65 +1,65 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
-import { PrimaryEntity } from '../../utils/primary.entity';
-import {
-  IsString,
-  MaxLength,
-  MinLength,
-  IsUrl,
-  IsNumber,
-} from 'class-validator';
-import { User } from '../../users/entities/user.entity';
-import { Wishlist } from '../../wishlists/entities/wishlist.entity';
+import { IsString, Length, IsNotEmpty, IsUrl, IsInt } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
 import { Offer } from '../../offers/entities/offer.entity';
+import { Wishlist } from '../../wishlists/entities/wishlist.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
-export class Wish extends PrimaryEntity {
+export class Wish {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
   @Column()
-  @IsString()
-  @MinLength(1, {
-    message: 'Минимальная длина поля - 1 символ',
-  })
-  @MaxLength(250, {
-    message: 'Максимальная длина поля - 250 символов',
-  })
+  @Length(1, 250)
   name: string;
 
   @Column()
-  @IsString()
   @IsUrl()
   link: string;
 
   @Column()
-  @IsString()
   @IsUrl()
   image: string;
 
   @Column()
-  @IsNumber({ maxDecimalPlaces: 2 })
   price: number;
 
-  @Column()
-  @IsNumber({ maxDecimalPlaces: 2 })
+  @Column({
+    default: 0,
+  })
   raised: number;
+
+  @Column()
+  @Length(1, 1024)
+  description: string;
+
+  @Column({
+    default: 0,
+  })
+  copied: number;
 
   @ManyToOne(() => User, (owner) => owner.wishes)
   owner: User;
 
-  @Column()
-  @IsString()
-  @MinLength(1, {
-    message: 'Минимальная длина поля - 1 символ',
+  @OneToMany(() => Offer, (offers) => offers.item, {
+    cascade: true,
   })
-  @MaxLength(1024, {
-    message: 'Максимальная длина поля - 1024 символа',
-  })
-  description: string;
+  offer: Offer[];
 
-  @ManyToOne(() => Offer, (offer) => offer.item)
-  offers: Offer[];
-
-  @Column()
-  copied?: number;
-
-  @ManyToOne(() => Wishlist, (wishlist) => wishlist.items)
+  @ManyToOne(() => Wishlist, (wishlists) => wishlists.items)
   wishlist: Wishlist;
 }

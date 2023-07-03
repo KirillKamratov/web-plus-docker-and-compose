@@ -1,28 +1,22 @@
-import { IsString, IsUrl, MaxLength, Min, MinLength } from 'class-validator';
+import { IsString, IsUrl, Length, IsNotEmpty, Min } from 'class-validator';
 
 export class CreateWishDto {
+  @Length(1, 250)
   @IsString()
-  @MinLength(1, {
-    message: 'Минимальная длина поля - 1 символ',
-  })
-  @MaxLength(250, {
-    message: 'Максимальная длина поля - 250 символов',
-  })
   name: string;
 
-  @IsString()
   @IsUrl()
+  @IsNotEmpty()
   link: string;
+
+  @IsUrl()
+  @IsNotEmpty()
+  image: string;
 
   @Min(1)
   price: number;
 
+  @Length(1, 1024)
   @IsString()
-  @MinLength(1, {
-    message: 'Минимальная длина поля - 1 символ',
-  })
-  @MaxLength(1024, {
-    message: 'Максимальная длина поля - 1024 символа',
-  })
-  description: string;
+  description?: string;
 }
